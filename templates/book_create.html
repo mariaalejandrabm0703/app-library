@@ -1,6 +1,15 @@
-<h1>Library</h1>
 <ul>
   <li><a href="{% url 'home' %}">Home</a></li>
   <li><a href="{% url 'library:library' %}">Library</a></li>
   <li><a href="{% url 'library:book_create' %}">Books</a></li>
 </ul>
+
+<form method="POST">
+  {% csrf_token %}
+  <br />
+  title{{ form.title }}
+  <br />
+  description{{ form.description }}
+  <br />
+  <button type="submit">Submit</button>
+</form>

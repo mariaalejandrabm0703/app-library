@@ -1,4 +1,6 @@
-from django.shortcuts import render
+from multiprocessing import context
+from venv import create
+from django.shortcuts import render, redirect
 from django.views import View
 from .forms import BookCreateForm, AuthorCreateForm
 
@@ -8,19 +10,27 @@ class LibraryView(View):
 
 class BookCreateView(View):
     def get(self, request, *args, **kwargs):
-        form = BookCreateForm()
-        return render(request, 'book_create.html', context={'title': 'Create Book', 'form': form})
+        context={
+            'title': 'Create Book',
+        }
+        return render(request, 'book_create.html', context=context)
 
     def post(self, request, *args, **kwargs):
-        form = BookCreateForm(request.POST)
-        if form.is_valid():
-            form.save()
-            return render(request, 'book_create.html', context={'title': 'Create Book', 'form': form})
+        if request.method == 'POST':
+            form = BookCreateForm(request.POST)
+            if form.is_valid():
+                title = form.cleaned_data.get('title')
+                description = form.cleaned_data.get('description')
+                p, created = Post.objects.get_or_create(title=title, description=description)
+                p.save()
+                return redirect('library:library')
 
 class AuthorCreateView(View):
     def get(self, request, *args, **kwargs):
-        form = AuthorCreateForm()
-        return render(request, 'author_create.html', context={'title': 'Create Author', 'form': form})
+        context={
+            'title': 'Create Author',
+        }
+        return render(request, 'author_create.html', context=context)
     
     def post(self, request, *args, **kwargs):
         form = AuthorCreateForm(request.POST)
