@@ -1,0 +1,15 @@
+<h1>List of Books</h1>
+<ul>
+  <li><a href="{% url 'home' %}">Home</a></li>
+  <li><a href="{% url 'library:library' %}">Library</a></li>
+  <li><a href="{% url 'library:book_create' %}">Create books</a></li>
+</ul>
+
+<br />
+{% for book in books %}
+<br />
+{{ book.title }}
+<br />
+{{ book.description }}
+<br />
+{% endfor %}
