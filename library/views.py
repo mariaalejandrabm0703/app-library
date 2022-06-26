@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.views import View
 
-from library.models import Book
+from library.models import Author, Book
 from .forms import BookCreateForm, AuthorCreateForm
 
 class LibraryView(View):
@@ -34,7 +34,14 @@ class BookCreateView(View):
                 p, created = Book.objects.get_or_create(title=title, description=description)
                 p.save()
                 return redirect('library:book')
-
+class AuthorListView(View):
+    def get(self, request, *args, **kwargs):
+        authors=Author.objects.all()
+        context={
+            'title': 'List Author',
+            'authors': authors
+        }
+        return render(request, 'author_list.html', context=context)
 class AuthorCreateView(View):
     def get(self, request, *args, **kwargs):
         context={

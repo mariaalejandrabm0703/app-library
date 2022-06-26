@@ -1,7 +1,15 @@
-<h1>Library</h1>
+<h1>List of Books</h1>
 <ul>
   <li><a href="{% url 'home' %}">Home</a></li>
   <li><a href="{% url 'library:library' %}">Library</a></li>
   <li><a href="{% url 'library:book' %}">Books</a></li>
-  <li><a href="{% url 'library:author' %}">Authors</a></li>
 </ul>
+
+<br />
+{% for author in authors %}
+<br />
+{{ author.first_name }}
+<br />
+{{ author.last_name }}
+<br />
+{% endfor %}
